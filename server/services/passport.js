@@ -23,18 +23,16 @@ passport.use(
       callbackURL: "/auth/google/callback",
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
-      User.findOne({ googleId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          //we already have a record of this id in the db
-          done(null, existingUser);
-        } else {
-          //we can proceed to adding the current user to the db
-          new User({ googleId: profile.id })
-            .save()
-            .then(user => done(null, user));
-        }
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await User.findOne({ googleId: profile.id });
+      if (existingUser) {
+        //we already have a record of this id in the db
+        return done(null, existingUser);
+
+        //we can proceed to adding the current user to the db
+        const user = await new User({ googleId: profile.id }).save();
+        done(null, user);
+      }
     }
   )
 );
@@ -47,19 +45,16 @@ passport.use(
       callbackURL: "/auth/facebook/callback",
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
-      User.findOne({ facebookId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          //we already have a record of this id in the db
-          done(null, existingUser);
-        } else {
-          //we can proceed to adding the current user to the db
-          new User({ facebookId: profile.id })
-            .save()
-            .then(user => done(null, user));
-        }
-      });
-      console.log(profile);
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await User.findOne({ facebookId: profile.id });
+      if (existingUser) {
+        //we already have a record of this id in the db
+        return done(null, existingUser);
+
+        //we can proceed to adding the current user to the db
+        const user = await new User({ facebookId: profile.id }).save();
+        done(null, user);
+      }
     }
   )
 );

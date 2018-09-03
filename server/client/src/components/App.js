@@ -6,9 +6,16 @@ import Grid from "@material-ui/core/Grid";
 import Header from "./Header";
 import Hidden from "@material-ui/core/Hidden";
 import Landing from "./Landing";
-
-const Dashboard = () => <h2>Dashboard</h2>;
-const TicketNew = () => <h2>TicketNew</h2>;
+import Dashboard from "./Dashboard";
+import TicketNew from "./tickets/TicketNew";
+import Paper from "@material-ui/core/Paper";
+import { withStyles } from "@material-ui/core";
+const styles = theme => ({
+  root: {
+    ...theme.mixins.gutters(),
+    minHeight: "250px"
+  }
+});
 
 class App extends Component {
   componentDidMount() {
@@ -16,8 +23,9 @@ class App extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <Grid container spacing={12}>
+      <Grid container spacing={16}>
         <Hidden>
           <Grid item xs={2} />
         </Hidden>
@@ -25,9 +33,13 @@ class App extends Component {
           <BrowserRouter>
             <div>
               <Header />
-              <Route exact path="/" component={Landing} />
-              <Route exact path="/tickets" component={Dashboard} />
-              <Route path="/tickets/new" component={TicketNew} />
+              <div style={{ paddingTop: "50px" }}>
+                <Paper className={classes.root}>
+                  <Route exact path="/" component={Landing} />
+                  <Route exact path="/tickets" component={Dashboard} />
+                  <Route path="/tickets/new" component={TicketNew} />
+                </Paper>
+              </div>
             </div>
           </BrowserRouter>
         </Grid>
@@ -42,4 +54,4 @@ class App extends Component {
 export default connect(
   null,
   actions
-)(App);
+)(withStyles(styles)(App));

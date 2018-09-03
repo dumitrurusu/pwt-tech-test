@@ -9,6 +9,7 @@ import Hidden from "@material-ui/core/Hidden";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
 import LoginDialog from "./header_components/LoginDialog";
+import { Link } from "react-router-dom";
 
 const styles = theme => ({
   root: {
@@ -53,6 +54,15 @@ class Header extends Component {
       default:
         return (
           <Hidden only={["xs", "sm", "md"]}>
+            <Button
+              component={Link}
+              to="/tickets"
+              size="small"
+              variant="contained"
+              className={classes.button}
+            >
+              <Typography className={classes.font}>Dashboard</Typography>
+            </Button>
             <a href={"/api/logout"} style={{ textDecoration: "none" }}>
               <Button
                 size="small"
@@ -82,10 +92,7 @@ class Header extends Component {
                 color="inherit"
                 className={classes.flex}
               >
-                <Logo
-                  href={this.props.auth ? "/tickets" : "/"}
-                  style={{ textDecoration: "none" }}
-                >
+                <Logo href="/" style={{ textDecoration: "none" }}>
                   Prime Wording & Translations
                 </Logo>
               </Typography>
